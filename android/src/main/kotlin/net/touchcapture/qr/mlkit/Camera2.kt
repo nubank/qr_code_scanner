@@ -11,6 +11,7 @@ import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
 import android.view.Surface
+import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import com.google.mlkit.vision.common.InputImage
 import java.util.*
@@ -57,7 +58,8 @@ internal class Camera2(private val targetWidth: Int, private val targetHeight: I
     // Return the corresponding MLKitVisionImageMetadata rotation value.
     private val mlkitOrientation: Int
         get() {
-            val deviceRotation = context.display?.rotation ?: return 0
+            val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val deviceRotation = windowManager.defaultDisplay.rotation
             val rotationCompensation = (ORIENTATIONS[deviceRotation] + sensorOrientation + 270) % 360
 
             val result: Int
